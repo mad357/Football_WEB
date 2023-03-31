@@ -13,10 +13,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authService: UserService, httpBackend: HttpBackend) {
     this.httpClient = new HttpClient(httpBackend);
   }
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const user = this.authService.userValue;
     const isLoggedIn = user && user.accessToken != null;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
@@ -28,15 +25,15 @@ export class TokenInterceptor implements HttpInterceptor {
             Authorization: `Bearer ${user.accessToken}`,
           },
         });
-      }
-      else {
+      } else {
         const isTokenRefreshValid = user.refreshTokenExpireDate > new Date();
         if (isTokenRefreshValid) {
-        return this.authService.refreshToken(user.refreshToken, this.httpClient).pipe(switchMap(() => {
-          return this.intercept(request, next);
-        }));
-        }
-        else {
+          return this.authService.refreshToken(user.refreshToken, this.httpClient).pipe(
+            switchMap(() => {
+              return this.intercept(request, next);
+            })
+          );
+        } else {
           this.authService.logout();
         }
       }

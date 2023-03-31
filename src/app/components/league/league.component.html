@@ -1,15 +1,14 @@
 <table mat-table matSort (matSortChange)="sortChange($event)" [dataSource]="dataSource" class="mat-elevation-z8">
-
   <ng-container matColumnDef="countryName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
     <td class="row-cell" mat-cell *matCellDef="let element">
-      {{element.countryName}}
+      {{ element.countryName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td class="row-cell" mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td class="row-cell" mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
@@ -22,10 +21,8 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" style="justify-content:center;"
-showFirstLastButtons>
+<mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" style="justify-content: center" showFirstLastButtons>
 </mat-paginator>
-

@@ -12,7 +12,8 @@ const routes: Routes = [
   {
     path: '',
     component: LeagueComponent,
-    canActivate: [AuthorizationGuard] },
+    canActivate: [AuthorizationGuard],
+  },
   {
     path: 'league',
     component: LeagueComponent,
@@ -25,13 +26,13 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule, LeagueModule, LoginModule, ClubModule]
+  exports: [RouterModule, LeagueModule, LoginModule, ClubModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -5,16 +5,16 @@ import { User } from './models/user';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   user: User;
 
   constructor(private userService: UserService) {
-    this.userService.userObservable?.subscribe(x => this.user = x);
+    this.userService.userObservable?.subscribe((x) => (this.user = x));
   }
 
   logout() {
-      this.userService.logout();
+    this.userService.logout();
   }
 }

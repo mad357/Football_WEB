@@ -9,7 +9,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
   selector: 'app-league',
   templateUrl: './league.component.html',
-  styleUrls: ['./league.component.css']
+  styleUrls: ['./league.component.css'],
 })
 export class LeagueComponent implements OnInit {
   isBusy = false;
@@ -19,23 +19,18 @@ export class LeagueComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(
-   private leagueService: LeagueService,
-   private _liveAnnouncer: LiveAnnouncer
-  ) {
-   }
+  constructor(private leagueService: LeagueService, private _liveAnnouncer: LiveAnnouncer) {}
 
   ngOnInit(): void {
-    this.leagueService.list().subscribe(leagues => {
+    this.leagueService.list().subscribe((leagues) => {
       this.leagues = leagues as League[];
       this.dataSource.data = leagues;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      leagues.forEach(item => {
+      leagues.forEach((item) => {
         item.editMode = false;
       });
     });
-
   }
 
   sortChange(sortState: Sort) {

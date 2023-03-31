@@ -1,0 +1,9 @@
+tabWidth: 2
+printWidth: 120
+overrides:
+  - files: "*.ts"
+    options:
+      parser: typescript
+  - files: "*.html"
+    options:
+      parser: angular

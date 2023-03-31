@@ -39,11 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
-
 @NgModule({
-  declarations: [
-    LeagueComponent
-  ],
+  declarations: [LeagueComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -82,7 +79,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     MatDatepickerModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
-  ]
+    BrowserAnimationsModule,
+  ],
 })
-export class LeagueModule { }
+export class LeagueModule {}

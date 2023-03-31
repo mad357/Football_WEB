@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClubComponent } from './club.component';
 
-
-
 @NgModule({
   declarations: [ClubComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class ClubModule { }
+export class ClubModule {}

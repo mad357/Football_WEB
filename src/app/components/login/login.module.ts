@@ -36,8 +36,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [LoginComponent],
   imports: [
@@ -75,7 +73,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
-  ]
+    BrowserAnimationsModule,
+  ],
 })
-export class LoginModule { }
+export class LoginModule {}

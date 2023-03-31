@@ -4,20 +4,20 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) {}
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
-
-            const error = err.error?.message || err.statusText;
-            console.error(err);
-            this.snackBar.open(error, null, {
-              duration: 5000
-            });
-            return throwError(() => error);
-        }))
-    }
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(
+      catchError((err) => {
+        const error = err.error?.message || err.statusText;
+        console.error(err);
+        this.snackBar.open(error, null, {
+          duration: 5000,
+        });
+        return throwError(() => error);
+      })
+    );
+  }
 }

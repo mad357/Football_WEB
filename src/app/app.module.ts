@@ -43,9 +43,7 @@ import { TokenInterceptor } from './guards/token-interceptor.guard';
 import { ErrorInterceptor } from './guards/api-error.interceptor.guard';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -98,14 +96,16 @@ import { ErrorInterceptor } from './guards/api-error.interceptor.guard';
     MatDatepickerModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true,
-  },
-  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
