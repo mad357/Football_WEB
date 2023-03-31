@@ -8,7 +8,7 @@ import { User } from './models/user';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  user: User;
+  user!: User | null;
 
   constructor(private userService: UserService) {
     this.userService.userObservable?.subscribe((x) => (this.user = x));

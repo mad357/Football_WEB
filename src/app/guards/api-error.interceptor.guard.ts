@@ -13,7 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err) => {
         const error = err.error?.message || err.statusText;
         console.error(err);
-        this.snackBar.open(error, null, {
+        this.snackBar.open(error, undefined, {
           duration: 5000,
         });
         return throwError(() => error);

@@ -15,9 +15,8 @@ export class LoginComponent {
   submitted = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
+    private formBuilder: FormBuilder,
     public userService: UserService,
     private snackBar: MatSnackBar
   ) {
@@ -35,12 +34,12 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    this.userService.login(this.form.controls.login.value, this.form.controls.password.value).subscribe({
+    this.userService.login(this.form.controls['login'].value, this.form.controls['password'].value).subscribe({
       next: () => {
         this.router.navigate(['/league']);
       },
-      error: (error) => {
-        this.snackBar.open('Wrong user or password', null, {
+      error: () => {
+        this.snackBar.open('Wrong user or password', undefined, {
           duration: 3000,
         });
       },

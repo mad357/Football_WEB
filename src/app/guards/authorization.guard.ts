@@ -13,7 +13,7 @@ export class AuthorizationGuard implements CanActivate {
       return true;
     }
 
-    this.snackBar.open('User is not logged in', null, {
+    this.snackBar.open('User is not logged in', undefined, {
       duration: 5000,
     });
     this.router.navigate(['login'], { queryParams: { returnUrl: state.url } });

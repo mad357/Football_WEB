@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class UserService {
-  private userSubject: BehaviorSubject<User>;
-  public userObservable: Observable<User>;
+  private userSubject: BehaviorSubject<User | null>;
+  public userObservable: Observable<User | null>;
 
   constructor(private router: Router, private httpClient: HttpClient) {
-    this.userSubject = new BehaviorSubject<User>(null);
+    this.userSubject = new BehaviorSubject<User | null>(null);
     this.userObservable = this.userSubject.asObservable();
-    let user = JSON.parse(localStorage.getItem('user')) as User;
+    let user = JSON.parse(localStorage.getItem('user')!) as User | null;
     if (user) {
       user.tokenExpireDate = new Date(user.tokenExpireDate);
       user.refreshTokenExpireDate = new Date(user.refreshTokenExpireDate);
@@ -23,7 +23,7 @@ export class UserService {
     }
   }
 
-  public get userValue(): User {
+  public get userValue(): User | null {
     return this.userSubject.value;
   }
 
@@ -48,15 +48,15 @@ export class UserService {
               }
             });
           });
-        var encodedString = this.parseJwt(localStorage.getItem('access_token'));
+        var encodedString = this.parseJwt(localStorage.getItem('access_token')!);
         let user = new User();
         user.login = encodedString.login;
         user.roles = encodedString.roles;
-        user.accessToken = localStorage.getItem('access_token');
-        user.refreshToken = localStorage.getItem('refresh_token');
+        user.accessToken = localStorage.getItem('access_token')!;
+        user.refreshToken = localStorage.getItem('refresh_token')!;
         let date = new Date(encodedString.exp * 1000);
         user.tokenExpireDate = date;
-        encodedString = this.parseJwt(localStorage.getItem('refresh_token'));
+        encodedString = this.parseJwt(localStorage.getItem('refresh_token')!);
         date = new Date(encodedString.exp * 1000);
         user.refreshTokenExpireDate = date;
         localStorage.setItem('user', JSON.stringify(user));
@@ -88,9 +88,9 @@ export class UserService {
                   localStorage.setItem('access_token', item.split(':')[index + 1]);
                   var encodedString = this.parseJwt(response);
                   let date = new Date(encodedString.exp * 1000);
-                  let user = JSON.parse(localStorage.getItem('user')) as User;
+                  let user = JSON.parse(localStorage.getItem('user')!) as User;
                   user.tokenExpireDate = date;
-                  user.accessToken = localStorage.getItem('access_token');
+                  user.accessToken = localStorage.getItem('access_token')!;
                   user.refreshTokenExpireDate = new Date(user.refreshTokenExpireDate);
                   this.userSubject.next(user);
                   localStorage.setItem('user', JSON.stringify(user));

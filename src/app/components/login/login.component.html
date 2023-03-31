@@ -1,22 +1,27 @@
 <div class="login-form">
   <h1>Football Web login</h1>
-  <mat-form-field *ngIf="form.controls.login as login" appearance="fill" floatLabel="always" class="login-form-field">
+  <mat-form-field
+    *ngIf="form.controls['login'] as login"
+    appearance="fill"
+    floatLabel="always"
+    class="login-form-field"
+  >
     <mat-label>login</mat-label>
-    <input matInput autocomplete="off" [formControl]="login" />
+    <input matInput autocomplete="off" [formControl]="$any(login)" />
     <mat-error *ngIf="login.invalid">
-      <ng-container *ngIf="login.errors.required">required</ng-container>
+      <ng-container *ngIf="login.errors?.['required']">required</ng-container>
     </mat-error>
   </mat-form-field>
   <mat-form-field
-    *ngIf="form.controls.password as password"
+    *ngIf="form.controls['password'] as password"
     appearance="fill"
     floatLabel="always"
     class="login-form-field"
   >
     <mat-label>password</mat-label>
-    <input matInput type="password" autocomplete="off" [formControl]="password" (keyup.enter)="login()" />
+    <input matInput type="password" autocomplete="off" [formControl]="$any(password)" (keyup.enter)="login()" />
     <mat-error *ngIf="password.invalid">
-      <ng-container *ngIf="password.errors.required">required</ng-container>
+      <ng-container *ngIf="password.errors?.['required']">required</ng-container>
     </mat-error>
   </mat-form-field>
 

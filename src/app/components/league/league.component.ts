@@ -16,8 +16,8 @@ export class LeagueComponent implements OnInit {
   leagues: League[] = [];
   displayedColumns: string[] = ['countryName', 'name', 'actions'];
   dataSource = new MatTableDataSource<League>(this.leagues);
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private leagueService: LeagueService, private _liveAnnouncer: LiveAnnouncer) {}
 
@@ -28,7 +28,7 @@ export class LeagueComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       leagues.forEach((item) => {
-        item.editMode = false;
+        item['editMode'] = false;
       });
     });
   }
