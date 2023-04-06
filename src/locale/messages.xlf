@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="1824916975769162319" datatype="html">
+        <source>label.name</source>
+      </trans-unit>
+      <trans-unit id="4764427175498482575" datatype="html">
+        <source>label.country</source>
+      </trans-unit>
+      <trans-unit id="9125220480327047216" datatype="html">
+        <source>label.password</source>
+      </trans-unit>
+      <trans-unit id="8740598129896034241" datatype="html">
+        <source>label.login</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

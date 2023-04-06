@@ -1,13 +1,13 @@
 <table mat-table matSort (matSortChange)="sortChange($event)" [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="countryName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+    <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.country</th>
     <td class="row-cell" mat-cell *matCellDef="let element">
       {{ element.countryName }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.name</th>
     <td class="row-cell" mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
