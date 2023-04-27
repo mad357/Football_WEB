@@ -18,6 +18,70 @@
         <source>label.password</source>
         <target>Password</target>
       </trans-unit>
+      <trans-unit id="4744774589594305795" datatype="html">
+        <source>label.clubNumber</source>
+        <target>Club number</target>
+      </trans-unit>
+      <trans-unit id="164655360724785283" datatype="html">
+        <source>label.higherLeagues</source>
+        <target>Higher leagues</target>
+      </trans-unit>
+      <trans-unit id="8793590923861807979" datatype="html">
+        <source>label.lowerLeagues</source>
+        <target>Lower leagues</target>
+      </trans-unit>
+      <trans-unit id="4740057894225611107" datatype="html">
+        <source>label.promotionNumber</source>
+        <target>Promotion number</target>
+      </trans-unit>
+      <trans-unit id="2549063811351058461" datatype="html">
+        <source>label.playoffPromotionNumber</source>
+        <target>Playoff promotion number</target>
+      </trans-unit>
+      <trans-unit id="2544039723664342166" datatype="html">
+        <source>label.relegationNumber</source>
+        <target>Relegation number</target>
+      </trans-unit>
+      <trans-unit id="7363433651269473375" datatype="html">
+        <source>label.playoffRelegationNumber</source>
+        <target>Playoff relegation number</target>
+      </trans-unit>
+      <trans-unit id="5186097794050858921" datatype="html">
+        <source> errors.fieldRequired </source>
+        <target> Field is required </target>
+      </trans-unit>
+      <trans-unit id="3194928838963961283" datatype="html">
+        <source> errors.valueExceeded <x id="INTERPOLATION" equiv-text="{{ element.clubNumber }}"/></source>
+        <target> Value exceeded. Max accepted value is <x id="INTERPOLATION" equiv-text="{{ element.clubNumber }}"/></target>
+      </trans-unit>
+      <trans-unit id="425002226086167160" datatype="html">
+        <source>notification.leagueSaved</source>
+        <target>League saved</target>
+      </trans-unit>
+      <trans-unit id="8369430222134791097" datatype="html">
+        <source>label.all</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="4280901446748943560" datatype="html">
+        <source>button.search</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="3310122561504813168" datatype="html">
+        <source>error.unknown.error</source>
+        <target>Unknown error</target>
+      </trans-unit>
+      <trans-unit id="2382046113746187662" datatype="html">
+        <source>label.lowerLeague</source>
+        <target>Lower league</target>
+      </trans-unit>
+      <trans-unit id="8294450232116162793" datatype="html">
+        <source>label.higherLeague</source>
+        <target>Higher league</target>
+      </trans-unit>
+      <trans-unit id="8356359413487536518" datatype="html">
+        <source>button.clear</source>
+        <target>Clear</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

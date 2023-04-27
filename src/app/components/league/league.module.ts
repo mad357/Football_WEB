@@ -4,7 +4,7 @@ import { LeagueComponent } from './league.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,7 +37,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
   declarations: [LeagueComponent],
@@ -80,6 +79,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     MatTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FormsModule,
   ],
 })
 export class LeagueModule {}

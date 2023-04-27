@@ -31,6 +31,10 @@ export class TokenInterceptor implements HttpInterceptor {
           return this.authService.refreshToken(user.refreshToken, this.httpClient).pipe(
             switchMap(() => {
               return this.intercept(request, next);
+            }),
+            catchError((e) => {
+              this.authService.logout();
+              return EMPTY;
             })
           );
         } else {
@@ -38,7 +42,6 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       }
     }
-
     return next.handle(request);
   }
 }

@@ -13,16 +13,25 @@ const routes: Routes = [
     path: '',
     component: LeagueComponent,
     canActivate: [AuthorizationGuard],
+    data: {
+      roles: ['admin', 'user'],
+    },
   },
   {
     path: 'league',
     component: LeagueComponent,
     canActivate: [AuthorizationGuard],
+    data: {
+      roles: ['admin', 'user'],
+    },
   },
   {
     path: 'club',
     component: ClubComponent,
     canActivate: [AuthorizationGuard],
+    data: {
+      roles: ['admin', 'user'],
+    },
   },
   {
     path: 'login',

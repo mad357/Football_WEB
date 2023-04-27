@@ -1,28 +1,280 @@
-<table mat-table matSort (matSortChange)="sortChange($event)" [dataSource]="dataSource" class="mat-elevation-z8">
-  <ng-container matColumnDef="countryName">
-    <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.country</th>
-    <td class="row-cell" mat-cell *matCellDef="let element">
-      {{ element.countryName }}
-    </td>
-  </ng-container>
+<div class="filter">
+  <mat-form-field appearance="fill">
+    <mat-label i18n>label.country</mat-label>
+    <mat-select [(ngModel)]="filter.countryId">
+      <mat-option>
+        <p i18n>label.all</p>
+      </mat-option>
+      <mat-option *ngFor="let contry of countries" [value]="contry.id">
+        {{ contry.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <ng-container matColumnDef="name">
-    <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.name</th>
-    <td class="row-cell" mat-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
+  <mat-form-field appearance="fill">
+    <mat-label i18n>label.name</mat-label>
+    <input matInput [(ngModel)]="filter.name" />
+  </mat-form-field>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td class="row-cell" mat-cell *matCellDef="let element">
-      <button mat-icon-button>
-        <mat-icon>open_in_new</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+  <mat-form-field appearance="fill">
+    <mat-label i18n>label.clubNumber</mat-label>
+    <input min="0" type="number" matInput [(ngModel)]="filter.clubNumber" />
+  </mat-form-field>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+  <mat-form-field appearance="fill">
+    <mat-label i18n>label.lowerLeague</mat-label>
+    <input matInput [matAutocomplete]="matAutocomplete" [formControl]="lowerLeagueControl" />
+    <mat-autocomplete #matAutocomplete="matAutocomplete">
+      <mat-option *ngFor="let option of filteredLowerLeagues | async" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" style="justify-content: center" showFirstLastButtons>
-</mat-paginator>
+  <mat-form-field appearance="fill">
+    <mat-label i18n>label.higherLeague</mat-label>
+    <input matInput [matAutocomplete]="higherLeagues" [formControl]="higherLeagueControl" />
+    <mat-autocomplete #higherLeagues="matAutocomplete">
+      <mat-option *ngFor="let option of filteredHigherLeagues | async" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <div class="filter-buttons">
+    <button mat-raised-button i18n (click)="clear()">button.clear</button>
+    <button mat-raised-button color="primary" i18n (click)="search()">button.search</button>
+  </div>
+</div>
+
+<form name="form" #f="ngForm">
+  <table mat-table matSort (matSortChange)="sortChange($event)" [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="countryName">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.country</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.countryName }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <mat-select
+              [(ngModel)]="element.countryId"
+              #countryId="ngModel"
+              name="countryId_{{ element.id }}"
+              (selectionChange)="onChangeCountry(element, $event)"
+            >
+              <mat-option *ngFor="let country of countries" [value]="country.id">
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.name</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.name }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              required
+              [(ngModel)]="element.name"
+              name="name_{{ element.id }}"
+              #name="ngModel"
+            />
+            <mat-error *ngIf="name.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clubNumber">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.clubNumber</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">{{ element.clubNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="higherLeagues">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.higherLeagues</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']">
+          <ng-container *ngFor="let item of element.higherLeagues; let i = index">
+            <ng-container *ngIf="i > 0">·</ng-container> {{ item.name }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <mat-select
+              [(ngModel)]="element.higherLeagues"
+              name="higherLeagues_{{ element.id }}"
+              #higherLeagues="ngModel"
+              multiple
+            >
+              <mat-option *ngFor="let league of getLeaguesDataSelector(true, element)" [value]="league">
+                {{ league.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lowerLeagues">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.lowerLeagues</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']">
+          <ng-container *ngFor="let item of element.lowerLeagues; let i = index">
+            <ng-container *ngIf="i > 0">·</ng-container> {{ item.name }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <mat-select
+              [(ngModel)]="element.lowerLeagues"
+              name="lowerLeagues_{{ element.id }}"
+              #lowerLeagues="ngModel"
+              multiple
+            >
+              <mat-option *ngFor="let league of getLeaguesDataSelector(false, element)" [value]="league">
+                {{ league.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="promotionNumber">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.promotionNumber</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.promotionNumber }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              max="{{ element.clubNumber }}"
+              [(ngModel)]="element.promotionNumber"
+              name="promotionNumber_{{ element.id }}"
+              #promotionNumber="ngModel"
+            />
+            <mat-error *ngIf="promotionNumber.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+            <mat-error *ngIf="promotionNumber.errors?.['max']" i18n>
+              errors.valueExceeded {{ element.clubNumber }}</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="playoffPromotionNumber">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.playoffPromotionNumber</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.playoffPromotionNumber }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              max="{{ element.clubNumber }}"
+              [(ngModel)]="element.playoffPromotionNumber"
+              name="playoffPromotionNumber_{{ element.id }}"
+              #playoffPromotionNumber="ngModel"
+            />
+            <mat-error *ngIf="playoffPromotionNumber.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+            <mat-error *ngIf="playoffPromotionNumber.errors?.['max']" i18n>
+              errors.valueExceeded {{ element.clubNumber }}</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="relegationNumber">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.relegationNumber</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.relegationNumber }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              max="{{ element.clubNumber }}"
+              [(ngModel)]="element.relegationNumber"
+              name="relegationNumber_{{ element.id }}"
+              #relegationNumber="ngModel"
+            />
+            <mat-error *ngIf="relegationNumber.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+            <mat-error *ngIf="relegationNumber.errors?.['max']" i18n>
+              errors.valueExceeded {{ element.clubNumber }}</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="playoffRelegationNumber">
+      <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.playoffRelegationNumber</th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.playoffRelegationNumber }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              max="{{ element.clubNumber }}"
+              [(ngModel)]="element.playoffRelegationNumber"
+              name="playoffRelegationNumber_{{ element.id }}"
+              #playoffRelegationNumber="ngModel"
+            />
+            <mat-error *ngIf="playoffRelegationNumber.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+            <mat-error *ngIf="playoffRelegationNumber.errors?.['max']" i18n>
+              errors.valueExceeded {{ element.clubNumber }}</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <div style="display: flex">
+          <button
+            mat-icon-button
+            (click)="openEditMode(element)"
+            *ngIf="!element['editMode']"
+            [disabled]="getAnyEdited()"
+          >
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+          <button mat-icon-button (click)="save(element)" *ngIf="element['editMode']" disabled="{{ !f.form.valid }}">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button (click)="closeEditMode(element)" *ngIf="element['editMode']">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 50]" style="justify-content: center" showFirstLastButtons> </mat-paginator>
+</form>

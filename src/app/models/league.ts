@@ -1,16 +1,33 @@
-import { Country } from './country';
 
-export interface League {
+export class League {
   [x: string]: any;
   id?: number;
   name?: string;
-  country?: Country;
+  countryId?: number;
   countryName?: string;
   clubNumber?: number;
   promotionNumber?: number;
   relegationNumber?: number;
   playoffPromotionNumber?: number;
   playoffRelegationNumber?: number;
-  lowerLeagueIds?: Set<number>;
-  higherLeagueIds?: Set<number>;
+  lowerLeagues?: SimpleLeague[] = [];
+  higherLeagues?: SimpleLeague[] = [];
+
+  constructor(jsonStr?: string) {
+    if (jsonStr) {
+      let jsonObj = JSON.parse(jsonStr);
+      for (let prop in jsonObj) {
+        this[prop] = jsonObj[prop];
+      }
+    }
+  }
+
+  toString() {
+    return this.name ? this.name : '';
+  }
+}
+
+export class SimpleLeague {
+  id!: number;
+  name!: string;
 }

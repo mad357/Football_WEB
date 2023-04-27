@@ -38,8 +38,8 @@ export class LoginComponent {
       next: () => {
         this.router.navigate(['/league']);
       },
-      error: () => {
-        this.snackBar.open('Wrong user or password', undefined, {
+      error: (e: any) => {
+        this.snackBar.open(e, undefined, {
           duration: 3000,
         });
       },

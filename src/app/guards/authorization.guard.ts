@@ -8,9 +8,13 @@ export class AuthorizationGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService, private snackBar: MatSnackBar) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const user = this.userService.userObservable;
+    const user = this.userService.userValue;
     if (user) {
-      return true;
+      if (user.roles.filter((role) => route.data['roles'].includes(role))) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     this.snackBar.open('User is not logged in', undefined, {

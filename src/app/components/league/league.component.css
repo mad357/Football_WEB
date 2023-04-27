@@ -11,3 +11,19 @@ table {
   display: table-cell;
   width: 2%;
 }
+
+.filter{
+  margin: 3% 6% 3% 6%;
+}
+
+.mat-form-field {
+  margin-right: 3%;
+}
+
+.filter-buttons {
+  text-align: right;
+}
+
+.filter-buttons  > * {
+  margin-right: 10px;
+}

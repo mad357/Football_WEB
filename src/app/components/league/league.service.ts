@@ -1,3 +1,4 @@
+import { LeagueFilter } from './league.component';
 import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
@@ -18,7 +19,12 @@ import { League } from 'src/app/models/league';
 export class LeagueService {
   constructor(protected httpClient: HttpClient) {}
 
-  public list(): Observable<Array<League>> {
-    return this.httpClient.request<Array<League>>('get', `${environment.apiUrl}/league/list`, {});
+  public list(filter?: any): Observable<League[]> {
+    return this.httpClient.request<League[]>('get', `${environment.apiUrl}/league/list`, { params: filter });
   }
+
+  public update(league: League): Observable<League> {
+    return this.httpClient.request<League>('put', `${environment.apiUrl}/league`, { body: league });
+  }
+
 }
