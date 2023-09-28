@@ -52,21 +52,37 @@
     <ng-container matColumnDef="countryName">
       <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.country</th>
       <td class="row-cell" mat-cell *matCellDef="let element">
-        <ng-container *ngIf="!element['editMode']"> {{ element.countryName }} </ng-container>
-        <ng-container *ngIf="element['editMode']">
-          <mat-form-field>
-            <mat-select
-              [(ngModel)]="element.countryId"
-              #countryId="ngModel"
-              name="countryId_{{ element.id }}"
-              (selectionChange)="onChangeCountry(element, $event)"
-            >
-              <mat-option *ngFor="let country of countries" [value]="country.id">
-                {{ country.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </ng-container>
+        <div style="display: inline; white-space: nowrap;">
+          <mat-icon
+            *ngIf="element.id && element.higherLeagues.length === 0 && element.lowerLeagues.length === 0"
+            i18n-matTooltip
+            fontIcon="warning"
+            matTooltip="tooltip.leagueDisconected"
+          ></mat-icon>
+          <mat-icon
+            *ngIf="isLeagueInLoop(element)"
+            fontIcon="error"
+            i18n-matTooltip
+            matTooltip="tooltip.leaguesInLoop"
+          ></mat-icon>
+          <ng-container *ngIf="!element['editMode']"> {{ element.countryName }} </ng-container>
+          <ng-container *ngIf="element['editMode']">
+            <mat-form-field>
+              <mat-select
+                [(ngModel)]="element.countryId"
+                #countryId="ngModel"
+                required
+                name="countryId_{{ element.id }}"
+                (selectionChange)="onChangeCountry(element, $event)"
+              >
+                <mat-option *ngFor="let country of countries" [value]="country.id">
+                  {{ country.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+        </div>
       </td>
     </ng-container>
 
@@ -93,7 +109,24 @@
 
     <ng-container matColumnDef="clubNumber">
       <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.clubNumber</th>
-      <td class="row-cell" mat-cell *matCellDef="let element">{{ element.clubNumber }}</td>
+      <td class="row-cell" mat-cell *matCellDef="let element">
+        <ng-container *ngIf="!element['editMode']"> {{ element.clubNumber }} </ng-container>
+        <ng-container *ngIf="element['editMode']">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              [(ngModel)]="element.clubNumber"
+              name="clubNumber_{{ element.id }}"
+              #clubNumber="ngModel"
+            />
+            <mat-error *ngIf="clubNumber.errors?.['required']" i18n> errors.fieldRequired </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="higherLeagues">
@@ -252,14 +285,9 @@
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="row-cell" mat-cell *matCellDef="let element">
+      <td class="row-cell" mat-cell *matCellDef="let element; let i = index">
         <div style="display: flex">
-          <button
-            mat-icon-button
-            (click)="openEditMode(element)"
-            *ngIf="!element['editMode']"
-            [disabled]="getAnyEdited()"
-          >
+          <button mat-icon-button (click)="openEditMode(element)" *ngIf="!element['editMode']" [disabled]="anyEdit()">
             <mat-icon>open_in_new</mat-icon>
           </button>
           <button mat-icon-button (click)="save(element)" *ngIf="element['editMode']" disabled="{{ !f.form.valid }}">
@@ -267,6 +295,9 @@
           </button>
           <button mat-icon-button (click)="closeEditMode(element)" *ngIf="element['editMode']">
             <mat-icon>close</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(element, i)" *ngIf="element['id']">
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
       </td>
@@ -278,3 +309,14 @@
 
   <mat-paginator [pageSizeOptions]="[10, 20, 50]" style="justify-content: center" showFirstLastButtons> </mat-paginator>
 </form>
+<div>
+  <button
+    mat-fab
+    color="accent"
+    class="mat-fab-bottom-right"
+    (click)="add()"
+    [disabled]="anyNonPersistent() || anyEdit()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

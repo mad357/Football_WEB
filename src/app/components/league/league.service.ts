@@ -9,7 +9,7 @@ import {
   HttpParameterCodec,
   HttpContext,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { League } from 'src/app/models/league';
 
@@ -25,6 +25,17 @@ export class LeagueService {
 
   public update(league: League): Observable<League> {
     return this.httpClient.request<League>('put', `${environment.apiUrl}/league`, { body: league });
+  }
+
+  public create(league: League): Observable<HttpResponse<Response>> {
+    return this.httpClient.request<Response>('post', `${environment.apiUrl}/league`, {
+      body: league,
+      observe: 'response',
+    });
+  }
+
+  public delete(league: League): Observable<League> {
+    return this.httpClient.request<League>('delete', `${environment.apiUrl}/league/${league.id}`);
   }
 
 }

@@ -82,6 +82,34 @@
         <source>button.clear</source>
         <target>Clear</target>
       </trans-unit>
+      <trans-unit id="6679391015283629289" datatype="html">
+        <source>notification.leagueCreated</source>
+        <target>League created</target>
+      </trans-unit>
+      <trans-unit id="3343718493055531438" datatype="html">
+        <source>notification.leagueErrorOnSave</source>
+        <target>Error on league save</target>
+      </trans-unit>
+      <trans-unit id="8524581909718965183" datatype="html">
+        <source>notification.leagueErrorOnDelete</source>
+        <target>Error on league save delete</target>
+      </trans-unit>
+      <trans-unit id="8026332993074676932" datatype="html">
+        <source>notification.leagueDeleted</source>
+        <target>League has been deleted</target>
+      </trans-unit>
+      <trans-unit id="9196300099247661192" datatype="html">
+        <source>dialog.confirmLeagueDelete</source>
+        <target>Confirm league delete</target>
+      </trans-unit>
+      <trans-unit id="2397149669359077520" datatype="html">
+        <source>tooltip.leagueDisconected</source>
+        <target>League is not connected to other leagues</target>
+      </trans-unit>
+      <trans-unit id="5318735910092401235" datatype="html">
+        <source>tooltip.leaguesInLoop</source>
+        <target>Leagues are in loop</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

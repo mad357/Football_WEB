@@ -27,3 +27,8 @@ table {
 .filter-buttons  > * {
   margin-right: 10px;
 }
+
+.mat-fab-bottom-right {
+  position: fixed !important;
+  right: 25px;
+}

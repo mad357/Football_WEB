@@ -6,12 +6,12 @@ export class League {
   countryId?: number;
   countryName?: string;
   clubNumber?: number;
-  promotionNumber?: number;
-  relegationNumber?: number;
-  playoffPromotionNumber?: number;
-  playoffRelegationNumber?: number;
-  lowerLeagues?: SimpleLeague[] = [];
-  higherLeagues?: SimpleLeague[] = [];
+  promotionNumber: number = 0;
+  relegationNumber: number = 0;
+  playoffPromotionNumber: number = 0;
+  playoffRelegationNumber: number = 0;
+  lowerLeagues: SimpleLeague[] = [];
+  higherLeagues: SimpleLeague[] = [];
 
   constructor(jsonStr?: string) {
     if (jsonStr) {
