@@ -110,6 +110,46 @@
         <source>tooltip.leaguesInLoop</source>
         <target>Leagues are in loop</target>
       </trans-unit>
+      <trans-unit id="6027934986821235683" datatype="html">
+        <source>label.fullname</source>
+        <target>Fullname</target>
+      </trans-unit>
+      <trans-unit id="8902935593132841104" datatype="html">
+        <source>label.alias</source>
+        <target>Alias</target>
+      </trans-unit>
+      <trans-unit id="8792712654347627590" datatype="html">
+        <source>label.yearFound</source>
+        <target>Year found</target>
+      </trans-unit>
+      <trans-unit id="3651927953908004859" datatype="html">
+        <source>label.league</source>
+        <target>League</target>
+      </trans-unit>
+      <trans-unit id="2638489890218103383" datatype="html">
+        <source>label.model</source>
+        <target>Model</target>
+      </trans-unit>
+      <trans-unit id="7219954834232747734" datatype="html">
+        <source>label.search</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="4924512745759144131" datatype="html">
+        <source>sortOption.key</source>
+        <target>Sort Option</target>
+      </trans-unit>
+      <trans-unit id="9206473838513220645" datatype="html">
+        <source>sorting.fullname</source>
+        <target>Fullname</target>
+      </trans-unit>
+      <trans-unit id="8318920095090024948" datatype="html">
+        <source>sorting.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="4694888584737065144" datatype="html">
+        <source>sorting.alias</source>
+        <target>Alias</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

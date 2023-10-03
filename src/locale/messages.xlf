@@ -83,6 +83,36 @@
       <trans-unit id="5318735910092401235" datatype="html">
         <source>tooltip.leaguesInLoop</source>
       </trans-unit>
+      <trans-unit id="3651927953908004859" datatype="html">
+        <source>label.league</source>
+      </trans-unit>
+      <trans-unit id="6027934986821235683" datatype="html">
+        <source>label.fullname</source>
+      </trans-unit>
+      <trans-unit id="8792712654347627590" datatype="html">
+        <source>label.yearFound</source>
+      </trans-unit>
+      <trans-unit id="8902935593132841104" datatype="html">
+        <source>label.alias</source>
+      </trans-unit>
+      <trans-unit id="2638489890218103383" datatype="html">
+        <source>label.model</source>
+      </trans-unit>
+      <trans-unit id="7219954834232747734" datatype="html">
+        <source>label.search</source>
+      </trans-unit>
+      <trans-unit id="4924512745759144131" datatype="html">
+        <source>sortOption.key</source>
+      </trans-unit>
+      <trans-unit id="9206473838513220645" datatype="html">
+        <source>sorting.fullname</source>
+      </trans-unit>
+      <trans-unit id="4694888584737065144" datatype="html">
+        <source>sorting.alias</source>
+      </trans-unit>
+      <trans-unit id="8318920095090024948" datatype="html">
+        <source>sorting.name</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

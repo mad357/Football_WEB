@@ -1,1 +1,92 @@
-<p>club works!</p>
+<div class="filter">
+  <mat-form-field floatLabel="always">
+    <mat-label i18n>label.search</mat-label>
+    <input
+      matInput
+      autocomplete="off"
+      type="text"
+      placeholder="label.search"
+      i18n-placeholder
+      (input)="search()"
+      [(ngModel)]="clubName"
+    />
+    <button mat-icon-button *ngIf="clubName" matSuffix (click)="clearClubName()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field floatLabel="always">
+    <mat-label i18n>label.country</mat-label>
+    <mat-select (selectionChange)="search()" [(ngModel)]="countryFilter" placeholder="label.all" i18n-placeholder>
+      <mat-option i18n>label.all</mat-option>
+      <mat-option *ngFor="let item of countryListFilter" [value]="item">
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field floatLabel="always">
+    <mat-label i18n>label.league</mat-label>
+    <mat-select (selectionChange)="search()" [(ngModel)]="leagueFilter" placeholder="label.all" i18n-placeholder>
+      <mat-option i18n>label.all</mat-option>
+      <mat-option *ngFor="let item of leagueListFilter" [value]="item">
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field floatLabel="always">
+    <mat-label i18n>label.yearFound</mat-label>
+    <input
+      matInput
+      autocomplete="off"
+      type="number"
+      min="0"
+      placeholder="label.yearFound"
+      i18n-placeholder
+      (input)="search()"
+      [(ngModel)]="yearFound"
+    />
+    <button mat-icon-button *ngIf="yearFound" matSuffix (click)="clearYearFound()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div style="margin-left: auto">
+    <button mat-button class="pr-2" [matMenuTriggerFor]="sortMenu">
+      <span i18n>sortOption.key</span> - <span>{{ sortOption.key }}</span
+      ><mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="reverseOrder()">
+      <mat-icon *ngIf="ascending">arrow_upward</mat-icon>
+      <mat-icon *ngIf="!ascending">arrow_downward</mat-icon>
+    </button>
+
+    <mat-menu #sortMenu="matMenu">
+      <button *ngFor="let option of sortOptions" mat-menu-item (click)="sortBy(option)">
+        {{ option.key }}
+      </button>
+    </mat-menu>
+  </div>
+</div>
+<mat-nav-list class="p-0">
+  <mat-list-item *ngFor="let item of items">
+    <a style="width: 100%" [routerLink]="[item.id]">
+      <div mat-line>
+        <span i18n>label.name</span>: {{ item.name }} · <span i18n>label.fullname</span>: {{ item.fullname }} ·
+        <span *ngIf="item.alias"><span i18n>label.alias</span>: {{ item.alias }} ·</span>
+        <span *ngIf="item.yearFounded"><span i18n>label.yearFound</span>: {{ item.yearFounded }}</span>
+      </div>
+      <div mat-line><span i18n>label.league</span>: {{ item.leagueShort?.name }}</div>
+    </a>
+  </mat-list-item>
+</mat-nav-list>
+
+<div class="paginator">
+  <mat-paginator
+    [length]="total"
+    [pageIndex]="page"
+    [pageSize]="limit"
+    [pageSizeOptions]="[5, 10, 25, 50, 100]"
+    (page)="changePage($event)"
+  >
+  </mat-paginator>
+</div>

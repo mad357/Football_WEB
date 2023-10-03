@@ -7,6 +7,8 @@ import { LeagueModule } from './components/league/league.module';
 import { AuthorizationGuard } from './guards/authorization.guard';
 import { ClubModule } from './components/club/club.module';
 import { ClubComponent } from './components/club/club.component';
+import { ClubEditComponent } from './components/club-edit/club-edit.component';
+import { ClubResolver } from './components/club-edit/club.resolver';
 
 const routes: Routes = [
   {
@@ -32,6 +34,17 @@ const routes: Routes = [
     data: {
       roles: ['admin', 'user'],
     },
+  },
+  {
+    path: 'club/:id',
+    component: ClubEditComponent,
+    canActivate: [AuthorizationGuard],
+    data: {
+      roles: ['admin', 'user'],
+    },
+    resolve: {
+      club: ClubResolver,
+    }
   },
   {
     path: 'login',
