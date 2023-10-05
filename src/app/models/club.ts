@@ -1,5 +1,5 @@
 import { Country } from "./country";
-import { SimpleLeague } from "./league";
+import { LeagueSimple } from "./league";
 
 export class Club {
   [x: string]: any;
@@ -7,9 +7,9 @@ export class Club {
   alias?: string;
   fullname?: number;
   name?: string;
-  yearFounded?: number;
+  yearFound?: number;
   country?: Country;
-  leagueShort?: SimpleLeague;
+  leagueShort?: LeagueSimple;
 
   constructor(jsonStr?: string) {
     if (jsonStr) {

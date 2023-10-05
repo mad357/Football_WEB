@@ -1,0 +1,15 @@
+<h2 mat-dialog-title *ngIf="title">{{ title }}</h2>
+
+<mat-dialog-content *ngIf="message" class="mat-typography">
+  {{ message }}
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button *ngIf="cancelText" mat-button color="primary" [mat-dialog-close]="false">
+    {{ cancelText }}
+  </button>
+
+  <button *ngIf="applyText" mat-button color="primary" [mat-dialog-close]="true">
+    {{ applyText }}
+  </button>
+</mat-dialog-actions>

@@ -8,14 +8,18 @@ import {
   HttpParameterCodec,
   HttpContext,
 } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Club } from 'src/app/models/club';
+import { ClubDeletedEvent, ClubEvent } from './club-event';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClubService {
+  private eventDataSubject = new Subject<ClubEvent | undefined | null>();
+  readonly eventData = this.eventDataSubject.asObservable();
+
   constructor(protected httpClient: HttpClient) {}
 
   public findById(id: number): Observable<Club> {
@@ -41,8 +45,12 @@ export class ClubService {
     });
   }
 
-  public delete(club: Club): Observable<Club> {
-    return this.httpClient.request<Club>('delete', `${environment.apiUrl}/club/${club.id}`);
+  public delete(clubId: number): Observable<Club> {
+    return this.httpClient.request<Club>('delete', `${environment.apiUrl}/club/${clubId}`).pipe(
+      tap(() => {
+        this.eventDataSubject.next(new ClubDeletedEvent());
+      })
+    );
   }
 
 }

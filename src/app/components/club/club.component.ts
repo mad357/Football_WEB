@@ -1,3 +1,4 @@
+import { AppComponent } from './../../app.component';
 import { LeagueFilter } from './../league/league.component';
 import { ClubService } from './club.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -7,11 +8,12 @@ import { ClubDeletedEvent, ClubEvent } from './club-event';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LeagueService } from '../league/league.service';
-import { League, SimpleLeague } from 'src/app/models/league';
+import { League, LeagueSimple } from 'src/app/models/league';
 import { Country } from 'src/app/models/country';
 import { CountryService } from '../league/country.service';
+import { ConfirmDialogComponent } from 'src/app/shared/alert-dialog/confirm-dialog.component';
 
 interface SortOption {
   key: string;
@@ -35,8 +37,8 @@ export class ClubComponent implements OnInit, OnDestroy {
   ascending = true;
   items: Club[] = [];
 
-  leagueListFilter: SimpleLeague[] = [];
-  leagueFilter?: SimpleLeague;
+  leagueListFilter: LeagueSimple[] = [];
+  leagueFilter?: LeagueSimple;
   countryListFilter: Country[] = [];
   countryFilter?: Country;
   clubName?: String;
@@ -54,12 +56,20 @@ export class ClubComponent implements OnInit, OnDestroy {
     private clubService: ClubService,
     private leagueService: LeagueService,
     private countryService: CountryService,
+    public app: AppComponent
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.search();
     this.leagueListFilter = await lastValueFrom(this.leagueService.listSimple());
     this.countryListFilter = await lastValueFrom(this.countryService.list());
+    this.subscriptions.push(
+      this.clubService.eventData.subscribe((event) => {
+        if (event instanceof ClubDeletedEvent) {
+          this.search();
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -87,6 +97,32 @@ export class ClubComponent implements OnInit, OnDestroy {
 
   private onSearchComplete(results: Club[]): void {
     this.items = results;
+  }
+
+  async delete(clubId: number): Promise<void> {
+    const config = new MatDialogConfig();
+    config.width = '400px';
+    config.data = {
+      title: $localize`delete.dialog.title`,
+      message: $localize`delete.dialog.msg ${'club'}`,
+      applyText: $localize`button.confirm`,
+      cancelText: $localize`button.cancel`,
+    };
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, config);
+    const allow = (await lastValueFrom(dialogRef.afterClosed())) as boolean;
+
+    if (!allow) {
+      return;
+    }
+    this.clubService.delete(clubId).subscribe({
+      next: (r) => {
+        this.snackBar.open($localize`delete.success.club`, undefined, {
+          duration: 5000,
+        });
+        this.router.navigate(['/club']);
+      },
+    });
   }
 
   stop(event: Event): void {

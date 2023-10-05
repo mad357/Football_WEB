@@ -10,8 +10,8 @@ export class League {
   relegationNumber: number = 0;
   playoffPromotionNumber: number = 0;
   playoffRelegationNumber: number = 0;
-  lowerLeagues: SimpleLeague[] = [];
-  higherLeagues: SimpleLeague[] = [];
+  lowerLeagues: LeagueSimple[] = [];
+  higherLeagues: LeagueSimple[] = [];
 
   constructor(jsonStr?: string) {
     if (jsonStr) {
@@ -25,9 +25,16 @@ export class League {
   toString() {
     return this.name ? this.name : '';
   }
+
+  toSimpleLeague(): LeagueSimple {
+    let s = new LeagueSimple();
+    s.id = this.id;
+    s.name = this.name;
+    return s;
+  }
 }
 
-export class SimpleLeague {
-  id!: number;
-  name!: string;
+export class LeagueSimple {
+  id?: number;
+  name?: string;
 }

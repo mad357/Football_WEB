@@ -126,10 +126,6 @@
         <source>label.league</source>
         <target state="new">label.league</target>
       </trans-unit>
-      <trans-unit id="2638489890218103383" datatype="html">
-        <source>label.model</source>
-        <target state="new">label.model</target>
-      </trans-unit>
       <trans-unit id="7219954834232747734" datatype="html">
         <source>label.search</source>
         <target state="new">label.search</target>
@@ -149,6 +145,62 @@
       <trans-unit id="4694888584737065144" datatype="html">
         <source>sorting.alias</source>
         <target state="new">sorting.alias</target>
+      </trans-unit>
+      <trans-unit id="810724131388678858" datatype="html">
+        <source>errors.required</source>
+        <target state="new">errors.required</target>
+      </trans-unit>
+      <trans-unit id="7761004852348985822" datatype="html">
+        <source>button.save</source>
+        <target state="new">button.save</target>
+      </trans-unit>
+      <trans-unit id="3936101056062742511" datatype="html">
+        <source>save.success.club</source>
+        <target state="new">save.success.club</target>
+      </trans-unit>
+      <trans-unit id="9136051064084123192" datatype="html">
+        <source>warning.unsavedChanges</source>
+        <target state="new">warning.unsavedChanges</target>
+      </trans-unit>
+      <trans-unit id="2196885647855103393" datatype="html">
+        <source>tooltip.leagueCountryNotConnected</source>
+        <target state="new">tooltip.leagueCountryNotConnected</target>
+      </trans-unit>
+      <trans-unit id="4409384900093778699" datatype="html">
+        <source>button.new</source>
+        <target state="new">button.new</target>
+      </trans-unit>
+      <trans-unit id="7979497268976092909" datatype="html">
+        <source>delete.dialog.title</source>
+        <target state="new">delete.dialog.title</target>
+      </trans-unit>
+      <trans-unit id="1967162491249109285" datatype="html">
+        <source>button.confirm</source>
+        <target state="new">button.confirm</target>
+      </trans-unit>
+      <trans-unit id="5954902082727154890" datatype="html">
+        <source>button.cancel</source>
+        <target state="new">button.cancel</target>
+      </trans-unit>
+      <trans-unit id="5676428556053915891" datatype="html">
+        <source>delete.dialog.msg <x id="PH" equiv-text="&apos;club&apos;"/></source>
+        <target state="new">delete.dialog.msg <x id="PH" equiv-text="&apos;club&apos;"/></target>
+      </trans-unit>
+      <trans-unit id="4633236887584852226" datatype="html">
+        <source>tooltip.removeClub</source>
+        <target state="new">tooltip.removeClub</target>
+      </trans-unit>
+      <trans-unit id="3443894321919690119" datatype="html">
+        <source>delete.success.club</source>
+        <target state="new">delete.success.club</target>
+      </trans-unit>
+      <trans-unit id="2970413126476555617" datatype="html">
+        <source>error.numberRequired</source>
+        <target state="new">error.numberRequired</target>
+      </trans-unit>
+      <trans-unit id="7590156297375564252" datatype="html">
+        <source>error.yearExceeded</source>
+        <target state="new">error.yearExceeded</target>
       </trans-unit>
     </body>
   </file>

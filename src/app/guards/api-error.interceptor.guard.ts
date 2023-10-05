@@ -11,7 +11,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
-        const error = err.error || err.statusText || $localize`error.unknown.error`;
+        const error = err.error.details || $localize`error.unknown.error`;
         this.snackBar.open(error, undefined, {
           duration: 5000,
         });

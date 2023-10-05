@@ -1,0 +1,25 @@
+.container {
+  margin: 25px;
+}
+
+.input-field {
+  width: 25%;
+  margin-right: 25px;
+}
+
+.small-input-field {
+  width: 10%;
+  margin-right: 25px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

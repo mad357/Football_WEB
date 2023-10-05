@@ -2,7 +2,7 @@ import { Country } from './../../models/country';
 import { CountryService } from './country.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { League, SimpleLeague } from 'src/app/models/league';
+import { League, LeagueSimple } from 'src/app/models/league';
 import { LeagueService } from './league.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { Observable, finalize, map, pipe, startWith } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AppComponent } from 'src/app/app.component';
 
 export class LeagueFilter {
   countryId?: number;
@@ -40,7 +41,7 @@ export class LeagueComponent implements OnInit {
   isBusy = false;
   leagues: League[] = [];
   originLeagues: League[] = [];
-  simpleLeagues: SimpleLeague[] = [];
+  simpleLeagues: LeagueSimple[] = [];
   countries: Country[] = [];
   displayedColumns: string[] = [
     'countryName',
@@ -63,7 +64,8 @@ export class LeagueComponent implements OnInit {
     private countryService: CountryService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackBar: MatSnackBar,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    public app: AppComponent
   ) {}
   //Template Driven Form
   ngOnInit(): void {
@@ -100,7 +102,7 @@ export class LeagueComponent implements OnInit {
 
       league.higherLeagues?.forEach((higher) => {
         if (higher.id === item.id) {
-          let simpleLeague = new SimpleLeague();
+          let simpleLeague = new LeagueSimple();
           simpleLeague.id = league.id!;
           simpleLeague.name = league.name!;
           item.lowerLeagues?.push(simpleLeague);
@@ -108,7 +110,7 @@ export class LeagueComponent implements OnInit {
       });
       league.lowerLeagues?.forEach((lower) => {
         if (lower.id === item.id) {
-          let simpleLeague = new SimpleLeague();
+          let simpleLeague = new LeagueSimple();
           simpleLeague.id = league.id!;
           simpleLeague.name = league.name!;
           item.higherLeagues?.push(simpleLeague);
@@ -130,7 +132,7 @@ export class LeagueComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     for (let item of this.originLeagues) {
-      let simpleLeague = new SimpleLeague();
+      let simpleLeague = new LeagueSimple();
       simpleLeague.id = item.id!;
       simpleLeague.name = item.name!;
       this.simpleLeagues.push(simpleLeague);
@@ -142,7 +144,7 @@ export class LeagueComponent implements OnInit {
     });
   }
 
-  isAlreadyGotHigherLeague(editedLeague: League, higherLeagueItem: SimpleLeague): boolean {
+  isAlreadyGotHigherLeague(editedLeague: League, higherLeagueItem: LeagueSimple): boolean {
     if ((editedLeague.higherLeagues = [])) {
       return false;
     }
@@ -326,7 +328,7 @@ export class LeagueComponent implements OnInit {
       return false;
     }
 
-    const queueHigher: SimpleLeague[] = JSON.parse(JSON.stringify(league.higherLeagues));
+    const queueHigher: LeagueSimple[] = JSON.parse(JSON.stringify(league.higherLeagues));
     while (queueHigher.length > 0) {
       const top = queueHigher.shift()!;
       if (league.lowerLeagues.findIndex((x) => x.id === top.id) !== -1) {
@@ -341,11 +343,11 @@ export class LeagueComponent implements OnInit {
     return false;
   }
 
-  getLeaguesDataSelector(isHigherLeague: boolean, league: League): SimpleLeague[] {
-    let result: SimpleLeague[] = [];
+  getLeaguesDataSelector(isHigherLeague: boolean, league: League): LeagueSimple[] {
+    let result: LeagueSimple[] = [];
     let leagueOrigin = this.originLeagues.find((x) => x.id === league.id)!;
     for (let item of this.originLeagues.filter((x) => x.countryId === league.countryId)) {
-      let simpleLeague = new SimpleLeague();
+      let simpleLeague = new LeagueSimple();
       simpleLeague.id = item.id!;
       simpleLeague.name = item.name!;
       result.push(simpleLeague);
@@ -380,25 +382,25 @@ export class LeagueComponent implements OnInit {
     return this.originLeagues.filter((x) => higherLeagueIds.includes(x.id!));
   }
 
-  getHigherSimpleLeagues(leagueId: number): SimpleLeague[] {
+  getHigherSimpleLeagues(leagueId: number): LeagueSimple[] {
     let higherLeagueIds = this.originLeagues.filter((x) => x.id === leagueId)[0].higherLeagues!.flatMap((x2) => x2.id);
     return this.simpleLeagues.filter((x) => higherLeagueIds.includes(x.id));
   }
 
-  getAllHigherThanLeagues(league: League): SimpleLeague[] {
+  getAllHigherThanLeagues(league: League): LeagueSimple[] {
     let simpleLeague = this.simpleLeagues.filter((x) => x.id === league.id)[0];
     let leagues = this.getHigherLeagues(league.id!);
     if (leagues.length === 0) {
       return [];
     }
-    const queue: SimpleLeague[] = [];
+    const queue: LeagueSimple[] = [];
     queue.push(simpleLeague);
 
-    const results: SimpleLeague[] = [];
+    const results: LeagueSimple[] = [];
 
     while (queue.length > 0) {
       const first = queue.shift()!;
-      const more = this.getHigherSimpleLeagues(first.id).filter(
+      const more = this.getHigherSimpleLeagues(first.id!).filter(
         (it) => results.find((that) => that.id === it.id) == null
       );
 
@@ -419,25 +421,25 @@ export class LeagueComponent implements OnInit {
     return this.originLeagues.filter((x) => lowerLeagueIds.includes(x.id!));
   }
 
-  getLowerSimpleLeagues(leagueId: number): SimpleLeague[] {
+  getLowerSimpleLeagues(leagueId: number): LeagueSimple[] {
     let lowerLeagueIds = this.originLeagues.filter((x) => x.id === leagueId)[0].lowerLeagues!.flatMap((x2) => x2.id);
     return this.simpleLeagues.filter((x) => lowerLeagueIds.includes(x.id));
   }
 
-  getAllLowerThanLeagues(league: League): SimpleLeague[] {
+  getAllLowerThanLeagues(league: League): LeagueSimple[] {
     let simpleLeague = this.simpleLeagues.filter((x) => x.id === league.id)[0];
     let leagues = this.getLowerLeagues(league.id!);
     if (leagues.length === 0) {
       return [];
     }
-    const queue: SimpleLeague[] = [];
+    const queue: LeagueSimple[] = [];
     queue.push(simpleLeague);
 
-    const results: SimpleLeague[] = [];
+    const results: LeagueSimple[] = [];
 
     while (queue.length > 0) {
       const first = queue.shift()!;
-      const more = this.getLowerSimpleLeagues(first.id).filter(
+      const more = this.getLowerSimpleLeagues(first.id!).filter(
         (it) => results.find((that) => that.id === it.id) == null
       );
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { League, SimpleLeague } from 'src/app/models/league';
+import { League, LeagueSimple } from 'src/app/models/league';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,8 @@ export class LeagueService {
     return this.httpClient.request<League[]>('get', `${environment.apiUrl}/league/list`, { params: filter });
   }
 
-  public listSimple(filter?: any): Observable<SimpleLeague[]> {
-    return this.httpClient.request<SimpleLeague[]>('get', `${environment.apiUrl}/league/list`, { params: filter });
+  public listSimple(filter?: any): Observable<LeagueSimple[]> {
+    return this.httpClient.request<LeagueSimple[]>('get', `${environment.apiUrl}/league/list`, { params: filter });
   }
 
   public update(league: League): Observable<League> {

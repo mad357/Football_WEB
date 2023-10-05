@@ -52,7 +52,7 @@
     <ng-container matColumnDef="countryName">
       <th i18n mat-header-cell *matHeaderCellDef mat-sort-header>label.country</th>
       <td class="row-cell" mat-cell *matCellDef="let element">
-        <div style="display: inline; white-space: nowrap;">
+        <div style="display: inline; white-space: nowrap">
           <mat-icon
             *ngIf="element.id && element.higherLeagues.length === 0 && element.lowerLeagues.length === 0"
             i18n-matTooltip
@@ -81,7 +81,6 @@
               </mat-select>
             </mat-form-field>
           </ng-container>
-
         </div>
       </td>
     </ng-container>
@@ -287,7 +286,12 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td class="row-cell" mat-cell *matCellDef="let element; let i = index">
         <div style="display: flex">
-          <button mat-icon-button (click)="openEditMode(element)" *ngIf="!element['editMode']" [disabled]="anyEdit()">
+          <button
+            mat-icon-button
+            (click)="openEditMode(element)"
+            *ngIf="!element['editMode']"
+            [disabled]="anyEdit() || !app.user!.hasRole('admin')"
+          >
             <mat-icon>open_in_new</mat-icon>
           </button>
           <button mat-icon-button (click)="save(element)" *ngIf="element['editMode']" disabled="{{ !f.form.valid }}">
@@ -296,7 +300,12 @@
           <button mat-icon-button (click)="closeEditMode(element)" *ngIf="element['editMode']">
             <mat-icon>close</mat-icon>
           </button>
-          <button mat-icon-button (click)="delete(element, i)" *ngIf="element['id']">
+          <button
+            mat-icon-button
+            (click)="delete(element, i)"
+            *ngIf="element['id']"
+            [disabled]="!app.user!.hasRole('admin')"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -307,7 +316,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" style="justify-content: center" showFirstLastButtons> </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" style="justify-content: center" showFirstLastButtons>
+  </mat-paginator>
 </form>
 <div>
   <button
@@ -315,7 +325,7 @@
     color="accent"
     class="mat-fab-bottom-right"
     (click)="add()"
-    [disabled]="anyNonPersistent() || anyEdit()"
+    [disabled]="anyNonPersistent() || anyEdit() || !app.user!.hasRole('admin')"
   >
     <mat-icon>add</mat-icon>
   </button>

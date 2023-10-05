@@ -9,6 +9,9 @@ import { ClubModule } from './components/club/club.module';
 import { ClubComponent } from './components/club/club.component';
 import { ClubEditComponent } from './components/club-edit/club-edit.component';
 import { ClubResolver } from './components/club-edit/club.resolver';
+import { PendingChangesGuard } from './guards/pending-changes.guard';
+import { ClubEditModule } from './components/club-edit/club-edit.module';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -44,7 +47,17 @@ const routes: Routes = [
     },
     resolve: {
       club: ClubResolver,
-    }
+    },
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'club/new',
+    component: ClubEditComponent,
+    canActivate: [AuthorizationGuard],
+    data: {
+      roles: ['admin', 'user'],
+    },
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'login',
@@ -55,6 +68,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule, LeagueModule, LoginModule, ClubModule],
+  exports: [RouterModule, CommonModule, LeagueModule, LoginModule, ClubModule, ClubEditModule],
 })
 export class AppRoutingModule {}

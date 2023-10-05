@@ -1,1 +1,93 @@
-<p>club-edit works!</p>
+<div class="container">
+  <div>
+    <mat-form-field
+      class="input-field"
+      *ngIf="formGroup.controls['name'] as name"
+      appearance="standard"
+      floatLabel="always"
+    >
+      <mat-label i18n>label.name</mat-label>
+      <input required matInput autocomplete="off" [formControl]="$any(name)" />
+      <mat-error *ngIf="name.invalid">
+        <ng-container *ngIf="name.errors?.['required']" i18n>errors.required</ng-container>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      class="input-field"
+      *ngIf="formGroup.controls['fullname'] as fullname"
+      appearance="standard"
+      floatLabel="always"
+    >
+      <mat-label i18n>label.fullname</mat-label>
+      <input required matInput autocomplete="off" [formControl]="$any(fullname)" />
+      <mat-error *ngIf="fullname.invalid">
+        <ng-container *ngIf="fullname.errors?.['required']" i18n>errors.required</ng-container>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      class="input-field"
+      *ngIf="formGroup.controls['alias'] as alias"
+      appearance="standard"
+      floatLabel="always"
+    >
+      <mat-label i18n>label.alias</mat-label>
+      <input matInput autocomplete="off" [formControl]="$any(alias)" />
+    </mat-form-field>
+    <span style="float: right">
+      <button [disabled]="!canSave() || !app.user!.hasRole('admin')" mat-raised-button color="primary" i18n (click)="save()">button.save</button>
+    </span>
+  </div>
+  <div>
+    <mat-form-field
+      class="small-input-field"
+      *ngIf="formGroup.controls['yearFound'] as yearFound"
+      appearance="standard"
+      floatLabel="always"
+      style="margin-right: calc(15% + 25px)"
+    >
+      <mat-label i18n>label.yearFound</mat-label>
+      <input type="number" matInput autocomplete="off" [formControl]="$any(yearFound)" />
+      <mat-error *ngIf="yearFound.invalid">
+        <ng-container *ngIf="yearFound.errors?.['pattern']" i18n>error.numberRequired</ng-container>
+        <ng-container *ngIf="yearFound.errors?.['max']" i18n>error.yearExceeded</ng-container>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      class="input-field"
+      *ngIf="formGroup.controls['countryId'] as countryId"
+      appearance="standard"
+      floatLabel="always"
+    >
+      <mat-label i18n>label.country</mat-label>
+      <mat-select [formControl]="$any(countryId)">
+        <mat-option *ngFor="let c of contryList" [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      class="input-field"
+      *ngIf="formGroup.controls['leagueId'] as leagueId"
+      appearance="standard"
+      floatLabel="always"
+    >
+      <mat-label i18n>label.league</mat-label>
+      <mat-select [formControl]="$any(leagueId)">
+        <mat-option
+          *ngFor="let l of leagueSimpleList"
+          [value]="l.id"
+          [ngStyle]="{ 'background-color': isLeagueInCountry(l.id!) ? '' : 'yellow' }"
+        >
+          {{ l.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon
+      *ngIf="!isLeagueInCountry(formGroup.controls['leagueId'].value)"
+      i18n-matTooltip
+      fontIcon="warning"
+      style="color: red"
+      matTooltip="tooltip.leagueCountryNotConnected"
+    ></mat-icon>
+  </div>
+</div>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClubComponent } from './club.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -26,13 +25,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { ClubEditComponent } from './club-edit.component';
+import { PendingChangesGuard } from 'src/app/guards/pending-changes.guard';
 
 @NgModule({
-  declarations: [ClubComponent],
+  declarations: [ClubEditComponent],
   imports: [
     CommonModule,
-    SharedModule,
     BrowserModule,
     FormsModule,
     MatButtonModule,
@@ -60,5 +59,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatExpansionModule,
     MatDialogModule,
   ],
+  providers: [PendingChangesGuard],
 })
-export class ClubModule {}
+export class ClubEditModule {}

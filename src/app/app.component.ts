@@ -11,7 +11,7 @@ export class AppComponent {
   user!: User | null;
 
   constructor(private userService: UserService) {
-    this.userService.userObservable?.subscribe((x) => (this.user = x));
+    this.userService.userObservable?.subscribe((x) => (this.user = Object.assign(new User(), x)));
   }
 
   logout() {

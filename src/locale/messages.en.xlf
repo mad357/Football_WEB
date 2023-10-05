@@ -126,10 +126,6 @@
         <source>label.league</source>
         <target>League</target>
       </trans-unit>
-      <trans-unit id="2638489890218103383" datatype="html">
-        <source>label.model</source>
-        <target>Model</target>
-      </trans-unit>
       <trans-unit id="7219954834232747734" datatype="html">
         <source>label.search</source>
         <target>Search</target>
@@ -149,6 +145,62 @@
       <trans-unit id="4694888584737065144" datatype="html">
         <source>sorting.alias</source>
         <target>Alias</target>
+      </trans-unit>
+      <trans-unit id="810724131388678858" datatype="html">
+        <source>errors.required</source>
+        <target>Value is required</target>
+      </trans-unit>
+      <trans-unit id="7761004852348985822" datatype="html">
+        <source>button.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="3936101056062742511" datatype="html">
+        <source>save.success.club</source>
+        <target>Club saved successfully</target>
+      </trans-unit>
+      <trans-unit id="9136051064084123192" datatype="html">
+        <source>warning.unsavedChanges</source>
+        <target>You have unsaved changes. Confirm to leave page</target>
+      </trans-unit>
+      <trans-unit id="2196885647855103393" datatype="html">
+        <source>tooltip.leagueCountryNotConnected</source>
+        <target>League is not associated with country</target>
+      </trans-unit>
+      <trans-unit id="4409384900093778699" datatype="html">
+        <source>button.new</source>
+        <target>New</target>
+      </trans-unit>
+      <trans-unit id="7979497268976092909" datatype="html">
+        <source>delete.dialog.title</source>
+        <target>Delete item</target>
+      </trans-unit>
+      <trans-unit id="1967162491249109285" datatype="html">
+        <source>button.confirm</source>
+        <target>Confirm</target>
+      </trans-unit>
+      <trans-unit id="5954902082727154890" datatype="html">
+        <source>button.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="4633236887584852226" datatype="html">
+        <source>tooltip.removeClub</source>
+        <target>Remove Club</target>
+      </trans-unit>
+      <trans-unit id="5676428556053915891" datatype="html">
+        <source>delete.dialog.msg <x id="PH" equiv-text="&apos;club&apos;"/></source>
+        <target>Are You sure to permanently delete <x id="PH" equiv-text="&apos;club&apos;"/>?</target>
+      </trans-unit>
+      <trans-unit id="3443894321919690119" datatype="html">
+        <source>delete.success.club</source>
+        <target>Club deleted successfully</target>
+      </trans-unit>
+      <trans-unit id="2970413126476555617" datatype="html">
+        <source>error.numberRequired</source>
+        <target>Number is required</target>
+      </trans-unit>
+      <trans-unit id="7590156297375564252" datatype="html">
+        <source>error.yearExceeded</source>
+        <target>Max year exceeded</target>
       </trans-unit>
     </body>
   </file>
