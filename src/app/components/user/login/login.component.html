@@ -24,6 +24,8 @@
       <ng-container *ngIf="password.errors?.['required']">required</ng-container>
     </mat-error>
   </mat-form-field>
-
-  <button mat-raised-button color="primary" [disabled]="loading || !form.valid" (click)="login()">Login</button>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="loading || !form.valid" (click)="login()" i18n>button.login</button>
+    <button style="float: right" mat-raised-button color="primary" routerLink="/register" i18n>button.register</button>
+  </div>
 </div>

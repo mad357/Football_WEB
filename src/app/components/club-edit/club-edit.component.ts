@@ -1,4 +1,4 @@
-import { LeagueService } from './../league/league.service';
+import { LeagueService } from '../league/league.service';
 import { HostListener, Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';

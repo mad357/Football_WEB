@@ -202,6 +202,46 @@
         <source>error.yearExceeded</source>
         <target state="new">error.yearExceeded</target>
       </trans-unit>
+      <trans-unit id="3248359389417509992" datatype="html">
+        <source>button.login</source>
+        <target state="new">button.login</target>
+      </trans-unit>
+      <trans-unit id="6209481976474335424" datatype="html">
+        <source>button.register</source>
+        <target state="new">button.register</target>
+      </trans-unit>
+      <trans-unit id="5897956343000987162" datatype="html">
+        <source>label.register</source>
+        <target state="new">label.register</target>
+      </trans-unit>
+      <trans-unit id="5174345929699894981" datatype="html">
+        <source>title.footballWeb</source>
+        <target state="new">title.footballWeb</target>
+      </trans-unit>
+      <trans-unit id="924324841549577935" datatype="html">
+        <source>button.league</source>
+        <target state="new">button.league</target>
+      </trans-unit>
+      <trans-unit id="2749071502381865181" datatype="html">
+        <source>button.club</source>
+        <target state="new">button.club</target>
+      </trans-unit>
+      <trans-unit id="1061992097731997709" datatype="html">
+        <source>button.logout</source>
+        <target state="new">button.logout</target>
+      </trans-unit>
+      <trans-unit id="7459426392610455825" datatype="html">
+        <source>label.firstName</source>
+        <target state="new">label.firstName</target>
+      </trans-unit>
+      <trans-unit id="3271920791101571680" datatype="html">
+        <source>label.lastName</source>
+        <target state="new">label.lastName</target>
+      </trans-unit>
+      <trans-unit id="8628255702688262424" datatype="html">
+        <source>button.createAccount</source>
+        <target state="new">button.createAccount</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

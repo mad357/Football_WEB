@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UserService } from '../components/login/user.service';
+import { UserService } from '../components/user/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationGuard implements CanActivate {
@@ -21,6 +21,6 @@ export class AuthorizationGuard implements CanActivate {
       duration: 5000,
     });
     this.router.navigate(['login'], { queryParams: { returnUrl: state.url } });
-    return false;
+    return true;
   }
 }

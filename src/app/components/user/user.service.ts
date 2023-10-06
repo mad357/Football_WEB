@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/app/models/user';
@@ -25,6 +25,21 @@ export class UserService {
 
   public get userValue(): User | null {
     return this.userSubject.value;
+  }
+
+  public register(login: String, password: String, firstName: String, lastName: String): Observable<HttpResponse<Response>> {
+    const body = {
+      login: login,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+    }
+
+    return this.httpClient.request<Response>('post', `${environment.apiUrl}/user/register`, {
+      body: body,
+      observe: 'response',
+      // headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    });
   }
 
   public login(login: String, password: String): Observable<User> {

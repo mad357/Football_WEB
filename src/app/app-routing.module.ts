@@ -1,6 +1,6 @@
 import { LeagueComponent } from './components/league/league.component';
-import { LoginComponent } from './components/login/login.component';
-import { LoginModule } from './components/login/login.module';
+import { LoginComponent } from './components/user/login/login.component';
+import { UserModule } from './components/user/user.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LeagueModule } from './components/league/league.module';
@@ -12,6 +12,7 @@ import { ClubResolver } from './components/club-edit/club.resolver';
 import { PendingChangesGuard } from './guards/pending-changes.guard';
 import { ClubEditModule } from './components/club-edit/club-edit.module';
 import { CommonModule } from '@angular/common';
+import { RegisterComponent } from './components/user';
 
 const routes: Routes = [
   {
@@ -63,11 +64,15 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
   { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule, CommonModule, LeagueModule, LoginModule, ClubModule, ClubEditModule],
+  exports: [RouterModule, CommonModule, LeagueModule, ClubModule, ClubEditModule, UserModule],
 })
 export class AppRoutingModule {}

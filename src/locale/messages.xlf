@@ -152,6 +152,36 @@
       <trans-unit id="7590156297375564252" datatype="html">
         <source>error.yearExceeded</source>
       </trans-unit>
+      <trans-unit id="3248359389417509992" datatype="html">
+        <source>button.login</source>
+      </trans-unit>
+      <trans-unit id="5897956343000987162" datatype="html">
+        <source>label.register</source>
+      </trans-unit>
+      <trans-unit id="6209481976474335424" datatype="html">
+        <source>button.register</source>
+      </trans-unit>
+      <trans-unit id="1061992097731997709" datatype="html">
+        <source>button.logout</source>
+      </trans-unit>
+      <trans-unit id="2749071502381865181" datatype="html">
+        <source>button.club</source>
+      </trans-unit>
+      <trans-unit id="3271920791101571680" datatype="html">
+        <source>label.lastName</source>
+      </trans-unit>
+      <trans-unit id="5174345929699894981" datatype="html">
+        <source>title.footballWeb</source>
+      </trans-unit>
+      <trans-unit id="7459426392610455825" datatype="html">
+        <source>label.firstName</source>
+      </trans-unit>
+      <trans-unit id="8628255702688262424" datatype="html">
+        <source>button.createAccount</source>
+      </trans-unit>
+      <trans-unit id="924324841549577935" datatype="html">
+        <source>button.league</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

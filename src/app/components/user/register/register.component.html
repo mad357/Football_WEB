@@ -1,0 +1,48 @@
+<div class="register-form">
+  <h1 i18n>label.register</h1>
+  <mat-form-field
+    *ngIf="form.controls['login'] as login"
+    appearance="fill"
+    floatLabel="always"
+    class="register-form-field"
+  >
+    <mat-label i18n>label.login</mat-label>
+    <input matInput autocomplete="off" [formControl]="$any(login)" />
+    <mat-error *ngIf="login.invalid">
+      <ng-container *ngIf="login.errors?.['required']">required</ng-container>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="form.controls['password'] as password"
+    appearance="fill"
+    floatLabel="always"
+    class="register-form-field"
+  >
+    <mat-label i18n>label.password</mat-label>
+    <input matInput type="password" autocomplete="off" [formControl]="$any(password)" />
+    <mat-error *ngIf="password.invalid">
+      <ng-container *ngIf="password.errors?.['required']">required</ng-container>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="form.controls['firstName'] as firstName"
+    appearance="fill"
+    floatLabel="always"
+    class="register-form-field"
+  >
+    <mat-label i18n>label.firstName</mat-label>
+    <input matInput autocomplete="off" [formControl]="$any(firstName)" />
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="form.controls['lastName'] as lastName"
+    appearance="fill"
+    floatLabel="always"
+    class="register-form-field"
+  >
+    <mat-label i18n>label.lastName</mat-label>
+    <input matInput autocomplete="off" [formControl]="$any(lastName)" />
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="loading || !form.valid" i18n (click)="register()">button.createAccount</button>
+  </div>
+</div>

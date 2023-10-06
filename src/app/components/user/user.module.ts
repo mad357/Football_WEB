@@ -1,5 +1,4 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './login.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -35,9 +34,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     CdkTreeModule,
@@ -74,6 +76,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    RouterModule,
   ],
 })
-export class LoginModule {}
+export class UserModule {}

@@ -1,4 +1,4 @@
-import { UserService } from './components/login/user.service';
+import { UserService } from './components/user/user.service';
 import { Component } from '@angular/core';
 import { User } from './models/user';
 
@@ -8,13 +8,19 @@ import { User } from './models/user';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  user!: User | null;
+  user?: User;
 
   constructor(private userService: UserService) {
-    this.userService.userObservable?.subscribe((x) => (this.user = Object.assign(new User(), x)));
+    this.userService.userObservable?.subscribe((x) =>
+      x != null ? (this.user = Object.assign(new User(), x)) : (this.user = undefined)
+    );
   }
 
   logout() {
     this.userService.logout();
+  }
+
+  isLogged(): boolean {
+    return this.user != undefined;
   }
 }

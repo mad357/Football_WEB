@@ -1,5 +1,5 @@
 import { AppComponent } from './../../app.component';
-import { LeagueFilter } from './../league/league.component';
+import { LeagueFilter } from '../league/league.component';
 import { ClubService } from './club.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Subscription, lastValueFrom } from 'rxjs';

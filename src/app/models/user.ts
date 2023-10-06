@@ -1,6 +1,8 @@
 export class User {
   id!: string;
   login!: string;
+  firstName?: string;
+  lastName?: string;
   accessToken!: string;
   refreshToken!: string;
   roles!: string[];

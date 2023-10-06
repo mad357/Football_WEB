@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" *ngIf="user">
-  <span>Football Web</span>
-  <button mat-button routerLink="/league">League</button>
-  <button mat-button routerLink="/club">Club</button>
-  <button style="margin-left: auto" mat-button (click)="logout()">Logout</button>
+  <span i18n>title.footballWeb</span>
+  <button i18n mat-button routerLink="/league">button.league</button>
+  <button i18n mat-button routerLink="/club">button.club</button>
+  <button i18n style="margin-left: auto" mat-button (click)="logout()">button.logout</button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

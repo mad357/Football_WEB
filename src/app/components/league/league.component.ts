@@ -1,4 +1,4 @@
-import { Country } from './../../models/country';
+import { Country } from '../../models/country';
 import { CountryService } from './country.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, ViewChild } from '@angular/core';

@@ -1,4 +1,4 @@
-import { UserService } from '../components/login/user.service';
+import { UserService } from '../components/user/user.service';
 import { Injectable } from '@angular/core';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { EMPTY, from, lastValueFrom, Observable, throwError } from 'rxjs';

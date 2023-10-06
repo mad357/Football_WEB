@@ -202,6 +202,46 @@
         <source>error.yearExceeded</source>
         <target>Max year exceeded</target>
       </trans-unit>
+      <trans-unit id="3248359389417509992" datatype="html">
+        <source>button.login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="6209481976474335424" datatype="html">
+        <source>button.register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="5897956343000987162" datatype="html">
+        <source>label.register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="5174345929699894981" datatype="html">
+        <source>title.footballWeb</source>
+        <target>Football Web</target>
+      </trans-unit>
+      <trans-unit id="924324841549577935" datatype="html">
+        <source>button.league</source>
+        <target>League</target>
+      </trans-unit>
+      <trans-unit id="2749071502381865181" datatype="html">
+        <source>button.club</source>
+        <target>Club</target>
+      </trans-unit>
+      <trans-unit id="1061992097731997709" datatype="html">
+        <source>button.logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="7459426392610455825" datatype="html">
+        <source>label.firstName</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="3271920791101571680" datatype="html">
+        <source>label.lastName</source>
+        <target>Last name</target>
+      </trans-unit>
+      <trans-unit id="8628255702688262424" datatype="html">
+        <source>button.createAccount</source>
+        <target>Create account</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
