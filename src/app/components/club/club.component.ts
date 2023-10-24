@@ -44,8 +44,6 @@ export class ClubComponent implements OnInit, OnDestroy {
   clubName?: String;
   yearFound?: number;
 
-  private searchSubject = new Subject<void>();
-  private action = Subscription.EMPTY;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -74,11 +72,9 @@ export class ClubComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((it) => it.unsubscribe());
-    this.action.unsubscribe();
   }
 
-  search(): void {
-    this.action.unsubscribe();
+  async search(): Promise<void> {
     let params: any = {
       page: this.page,
       limit: this.limit,
@@ -90,13 +86,8 @@ export class ClubComponent implements OnInit, OnDestroy {
     this.clubName ? (params.clubName = this.clubName) : '';
     this.yearFound ? (params.yearFound = this.yearFound) : '';
 
-    this.action = this.clubService.list(params).subscribe((results) => this.onSearchComplete(results));
-
-    this.clubService.listSize(params).subscribe((result) => (this.total = result));
-  }
-
-  private onSearchComplete(results: Club[]): void {
-    this.items = results;
+    await lastValueFrom(this.clubService.list(params)).then((results) => (this.items = results));
+    await lastValueFrom(this.clubService.listSize(params)).then((result) => (this.total = result));
   }
 
   async delete(clubId: number): Promise<void> {
@@ -115,13 +106,11 @@ export class ClubComponent implements OnInit, OnDestroy {
     if (!allow) {
       return;
     }
-    this.clubService.delete(clubId).subscribe({
-      next: (r) => {
-        this.snackBar.open($localize`delete.success.club`, undefined, {
-          duration: 5000,
-        });
-        this.router.navigate(['/club']);
-      },
+    await lastValueFrom(this.clubService.delete(clubId)).then(() => {
+      this.snackBar.open($localize`delete.success.club`, undefined, {
+        duration: 5000,
+      });
+      this.router.navigate(['/club']);
     });
   }
 

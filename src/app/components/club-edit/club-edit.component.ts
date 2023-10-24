@@ -1,5 +1,5 @@
 import { LeagueService } from '../league/league.service';
-import { HostListener, Component, OnInit } from '@angular/core';
+import { HostListener, Component, OnInit, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,7 +8,7 @@ import { Club } from 'src/app/models/club';
 import { Country } from 'src/app/models/country';
 import { CountryService } from '../league/country.service';
 import { League, LeagueSimple } from 'src/app/models/league';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, Subscription, lastValueFrom } from 'rxjs';
 import { ClubService } from '../club/club.service';
 import { AppComponent } from 'src/app/app.component';
 
@@ -17,7 +17,7 @@ import { AppComponent } from 'src/app/app.component';
   templateUrl: './club-edit.component.html',
   styleUrls: ['./club-edit.component.css'],
 })
-export class ClubEditComponent implements OnInit {
+export class ClubEditComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
     return !this.anyChanges();
@@ -30,6 +30,7 @@ export class ClubEditComponent implements OnInit {
   leagueList: League[] = [];
   leagueSimpleList: LeagueSimple[] = [];
   isBusy = false;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     public router: Router,
@@ -51,15 +52,19 @@ export class ClubEditComponent implements OnInit {
   }
   //reactive forms
   ngOnInit(): void {
-    this.countryService.list().subscribe((result) => {
-      this.contryList = result;
-    });
-    this.leagueService.list().subscribe((result) => {
-      this.leagueList = result.map((x) => Object.assign(new League(), x));
-      this.leagueList.forEach((item) => {
-        this.leagueSimpleList.push(item.toSimpleLeague());
-      });
-    });
+    this.subscriptions.push(
+      this.countryService.list().subscribe((result) => {
+        this.contryList = result;
+      })
+    );
+    this.subscriptions.push(
+      this.leagueService.list().subscribe((result) => {
+        this.leagueList = result.map((x) => Object.assign(new League(), x));
+        this.leagueList.forEach((item) => {
+          this.leagueSimpleList.push(item.toSimpleLeague());
+        });
+      })
+    );
     this.initForm();
   }
 
@@ -75,6 +80,10 @@ export class ClubEditComponent implements OnInit {
     if (!this.app.user!.hasRole('admin')) {
       this.formGroup.disable();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((it) => it.unsubscribe());
   }
 
   assignFormToClub(): void {
@@ -130,30 +139,33 @@ export class ClubEditComponent implements OnInit {
     this.isBusy = true;
     this.assignFormToClub();
     if (this.isNew) {
-      this.clubService.create(this.club).subscribe({
-        next: (r) => {
-          this.snackBar.open($localize`save.success.club`, undefined, {
-            duration: 5000,
-          });
-          this.router.navigate(['/club']);
-        },
-        error: (e) => {
-          this.isBusy = false;
-        },
-      });
-    }
-    else {
-      this.clubService.update(this.club).subscribe({
-        next: (r) => {
-          this.snackBar.open($localize`save.success.club`, undefined, {
-            duration: 5000,
-          });
-          this.router.navigate(['/club']);
-        },
-        error: (e) => {
-          this.isBusy = false;
-        },
-      });
+      this.subscriptions.push(
+        this.clubService.create(this.club).subscribe({
+          next: (r) => {
+            this.snackBar.open($localize`save.success.club`, undefined, {
+              duration: 5000,
+            });
+            this.router.navigate(['/club']);
+          },
+          error: (e) => {
+            this.isBusy = false;
+          },
+        })
+      );
+    } else {
+      this.subscriptions.push(
+        this.clubService.update(this.club).subscribe({
+          next: (r) => {
+            this.snackBar.open($localize`save.success.club`, undefined, {
+              duration: 5000,
+            });
+            this.router.navigate(['/club']);
+          },
+          error: (e) => {
+            this.isBusy = false;
+          },
+        })
+      );
     }
   }
 

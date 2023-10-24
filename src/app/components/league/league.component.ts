@@ -1,14 +1,14 @@
 import { Country } from '../../models/country';
 import { CountryService } from './country.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { League, LeagueSimple } from 'src/app/models/league';
 import { LeagueService } from './league.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Observable, finalize, map, pipe, startWith } from 'rxjs';
+import { Observable, Subject, Subscription, finalize, map, pipe, startWith } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -31,7 +31,7 @@ export class LeagueFilter {
   templateUrl: './league.component.html',
   styleUrls: ['./league.component.css'],
 })
-export class LeagueComponent implements OnInit {
+export class LeagueComponent implements OnInit, OnDestroy {
   filter: LeagueFilter = new LeagueFilter();
   filteredLowerLeagues?: Observable<League[]>;
   filteredHigherLeagues?: Observable<League[]>;
@@ -59,6 +59,12 @@ export class LeagueComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private subscriptions: Subscription[] = [];
+  private searchSubscription: Subscription = Subscription.EMPTY;
+  private saveSubscription: Subscription = Subscription.EMPTY;
+  private updateSubscription: Subscription = Subscription.EMPTY;
+  private deleteSubscription: Subscription = Subscription.EMPTY;
+
   constructor(
     private leagueService: LeagueService,
     private countryService: CountryService,
@@ -69,12 +75,19 @@ export class LeagueComponent implements OnInit {
   ) {}
   //Template Driven Form
   ngOnInit(): void {
-    this.leagueService.list().subscribe((leagues) => {
-      this.refreshLeagues(leagues);
-    });
-    this.countryService.list().subscribe((countries) => {
-      this.countries = countries as Country[];
-    });
+    this.subscriptions.push(
+      ...[this.searchSubscription, this.saveSubscription, this.updateSubscription, this.deleteSubscription]
+    );
+    this.subscriptions.push(
+      this.leagueService.list().subscribe((leagues) => {
+        this.refreshLeagues(leagues);
+      })
+    );
+    this.subscriptions.push(
+      this.countryService.list().subscribe((countries) => {
+        this.countries = countries as Country[];
+      })
+    );
     this.filteredLowerLeagues = this.lowerLeagueControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
@@ -83,6 +96,10 @@ export class LeagueComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value || ''))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((it) => it.unsubscribe());
   }
 
   private updateLeagueReferences(league: League): void {
@@ -179,7 +196,7 @@ export class LeagueComponent implements OnInit {
       }
     });
 
-    this.leagueService.list(this.filter).subscribe((leagues) => {
+    this.searchSubscription = this.leagueService.list(this.filter).subscribe((leagues) => {
       this.leagues = [];
       leagues.forEach((item) => {
         this.leagues.push(new League(JSON.stringify(item)));
@@ -228,7 +245,7 @@ export class LeagueComponent implements OnInit {
 
   save(league: League): void {
     if (league.id === undefined) {
-      this.leagueService.create(league).subscribe({
+      this.saveSubscription = this.leagueService.create(league).subscribe({
         next: (response) => {
           this.snackBar.open($localize`notification.leagueCreated`, undefined, { duration: 5000 });
           var location: string = response.headers.get('Location')!;
@@ -245,7 +262,7 @@ export class LeagueComponent implements OnInit {
         },
       });
     } else {
-      this.leagueService
+      this.updateSubscription = this.leagueService
         .update(league)
         .pipe(finalize(() => (league['editMode'] = false)))
         .subscribe({
@@ -274,7 +291,7 @@ export class LeagueComponent implements OnInit {
       this.dataSource.data = data;
     } else {
       if (confirm($localize`dialog.confirmLeagueDelete`)) {
-        this.leagueService.delete(league).subscribe({
+        this.deleteSubscription = this.leagueService.delete(league).subscribe({
           next: () => {
             const data = this.dataSource.data;
             data.splice(index, 1);
