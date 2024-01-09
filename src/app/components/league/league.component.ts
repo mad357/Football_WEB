@@ -26,6 +26,18 @@ export class LeagueFilter {
   playoffRelegationNumber?: number;
 }
 
+const ColumnLabel = {
+  countryName: $localize`label.country`,
+  name: $localize`label.name`,
+  clubNumber: $localize`label.clubNumber`,
+  higherLeagues: $localize`label.higherLeagues`,
+  lowerLeagues: $localize`label.lowerLeagues`,
+  promotionNumber: $localize`label.promotionNumber`,
+  playoffPromotionNumber: $localize`label.playoffPromotionNumber`,
+  relegationNumber: $localize`label.relegationNumber`,
+  playoffRelegationNumber: $localize`label.playoffRelegationNumber`,
+  actions: $localize`label.actions`,
+} as const;
 @Component({
   selector: 'app-league',
   templateUrl: './league.component.html',
@@ -43,18 +55,9 @@ export class LeagueComponent implements OnInit, OnDestroy {
   originLeagues: League[] = [];
   simpleLeagues: LeagueSimple[] = [];
   countries: Country[] = [];
-  displayedColumns: string[] = [
-    'countryName',
-    'name',
-    'clubNumber',
-    'higherLeagues',
-    'lowerLeagues',
-    'promotionNumber',
-    'playoffPromotionNumber',
-    'relegationNumber',
-    'playoffRelegationNumber',
-    'actions',
-  ];
+
+  displayedColumns = Object.keys(ColumnLabel);
+
   dataSource = new MatTableDataSource<League>(this.leagues);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -217,9 +220,12 @@ export class LeagueComponent implements OnInit, OnDestroy {
     this.search();
   }
 
+  //only for screen readers
   sortChange(sortState: Sort) {
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this._liveAnnouncer.announce(
+        `Sorted column ${ColumnLabel[sortState.active as keyof typeof ColumnLabel]} ${sortState.direction}`
+      );
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
