@@ -69,11 +69,10 @@ export class LeagueComponent implements OnInit, OnDestroy {
   private deleteSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
-    private leagueService: LeagueService,
+    public leagueService: LeagueService,
     private countryService: CountryService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackBar: MatSnackBar,
-    private httpClient: HttpClient,
     public app: AppComponent
   ) {}
   //Template Driven Form
@@ -251,22 +250,25 @@ export class LeagueComponent implements OnInit, OnDestroy {
 
   save(league: League): void {
     if (league.id === undefined) {
-      this.saveSubscription = this.leagueService.create(league).subscribe({
-        next: (response) => {
-          this.snackBar.open($localize`notification.leagueCreated`, undefined, { duration: 5000 });
-          var location: string = response.headers.get('Location')!;
-          this.httpClient.request<League>('get', location).subscribe((result) => {
-            this.originLeagues.push(result);
-            this.updateLeagueReferences(result);
-            this.refreshLeagues(this.originLeagues);
-          });
-        },
-        error: () => {
-          let originValue = this.originLeagues.filter((x) => x.id === league.id)[0];
-          for (let key in league) league[key] = originValue.hasOwnProperty(key) ? originValue[key] : league[key];
-          this.snackBar.open($localize`notification.leagueErrorOnSave`, undefined, { duration: 5000 });
-        },
-      });
+      this.saveSubscription = this.leagueService
+        .create(league)
+        .pipe(finalize(() => (league['editMode'] = false)))
+        .subscribe({
+          next: (response) => {
+            this.snackBar.open($localize`notification.leagueCreated`, undefined, { duration: 5000 });
+            var location: string = response.headers.get('Location')!;
+            this.leagueService.getByLocation(location).subscribe((result) => {
+              this.originLeagues.push(result);
+              this.updateLeagueReferences(result);
+              this.refreshLeagues(this.originLeagues);
+            });
+          },
+          error: () => {
+            let originValue = this.originLeagues.filter((x) => x.id === league.id)[0];
+            for (let key in league) league[key] = originValue.hasOwnProperty(key) ? originValue[key] : league[key];
+            this.snackBar.open($localize`notification.leagueErrorOnSave`, undefined, { duration: 5000 });
+          },
+        });
     } else {
       this.updateSubscription = this.leagueService
         .update(league)

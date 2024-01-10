@@ -19,6 +19,10 @@ import { League, LeagueSimple } from 'src/app/models/league';
 export class LeagueService {
   constructor(protected httpClient: HttpClient) {}
 
+  getByLocation(location: string): Observable<League> {
+    return this.httpClient.request<League>('get', location);
+  }
+
   public list(filter?: any): Observable<League[]> {
     return this.httpClient.request<League[]>('get', `${environment.apiUrl}/league/list`, { params: filter });
   }
